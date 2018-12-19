@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 
@@ -28,7 +28,7 @@ class SignUpForm extends Component {
   }
 
   onChange = e => {
-    this.setState({[event.target.name]: event.target.value})
+    this.setState({[e.target.name]: e.target.value})
   }
 
   render() {
@@ -39,6 +39,11 @@ class SignUpForm extends Component {
       passwordConfirmation,
       error
     } = this.state
+
+    const isInvalid = password !== passwordConfirmation ||
+                      password === '' ||
+                      email === '' ||
+                      username === ''
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -70,7 +75,7 @@ class SignUpForm extends Component {
           type="password"
           placeholder="Enter Password Again"
         />
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={isInvalid}>Sign Up</button>
 
         {error && <p>{error.message}</p>}
       </form>
@@ -78,9 +83,10 @@ class SignUpForm extends Component {
   }
 }
 
-const SignUpLink = () => {
-  <p>Don't have an account? <Link to={ROUTES.SIGN_UP}>SIGN UP!</Link></p>
-}
+const SignUpLink = () => (
+  <p>Don't have an account? <Link to={ROUTES.SIGN_UP}>SIGN UP</Link></p>
+)
+
 
 export default SignUpPage;
 export {SignUpForm, SignUpLink};
